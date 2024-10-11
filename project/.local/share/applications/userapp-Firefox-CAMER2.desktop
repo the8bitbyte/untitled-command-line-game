@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+NoDisplay=true
+Exec=/nix/store/s882q4kczpn365n34v8vsk8indwi75q7-firefox-107.0.1/bin/firefox %u
+Name=Firefox
+Comment=Custom definition for Firefox
