@@ -1,4 +1,7 @@
 import java.util.Scanner;
+import java.awt.DefaultFocusTraversalPolicy;
+import java.awt.Toolkit;
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 public class Main {
@@ -16,28 +19,30 @@ public class Main {
       }
       System.out.print(symbol);
   }
-  
-  public static int validateIntInput(Scanner scan){
-    System.out.print("\n\033[34m>\033[0m ");
-    int choice = 0;
-    while (true){
-      if(scan.hasNextInt()) {
-         choice = scan.nextInt();
-        break;
-      }
-      else{
-        System.out.print("\u001B[2A");
-        System.out.print("\u001B[2K");
-        System.out.print("\n\033[34m>\033[0m ");
-        scan.nextLine();
-        continue;
-      }
 
+  public static int validateIntInput(Scanner scan){
+
+      int choice = 0;
+      while (true){
+        System.out.print("\u001b[s");
+        System.out.print("\n\033[34m>\033[0m ");
+        if(scan.hasNextInt()) {
+           choice = scan.nextInt();
+          break;
+        }
+        else{
+          System.out.print("\u001b[u");
+          System.out.print("\u001b[0J");
+          System.out.print("\n\033[34m>\033[0m ");
+          scan.nextLine();
+          continue;
+        }
+
+      }
+      System.out.println("\033[H\033[2J");
+      System.out.flush();
+      return choice;
     }
-    System.out.println("\033[H\033[2J");
-    System.out.flush();
-    return choice;
-  }
 
   public static void Clear()
   {
@@ -84,6 +89,7 @@ public class Main {
   public static void event1(Scanner input, Character player) {
       Scene quarryScene = new Scene("you approach a quarry, nobody is around. You can see a vein of stone that looks like it could be mined.", "quarry", "Stone", 10);
     quarryScene.addResource("Iron", 3, 2.5f);
+    quarryScene.addResource("Bronze", 5, 3f);
       Scene forestScene = new Scene("you approach a dense forest. the trees block most sunlight leaving the path before you dark.", "Forest", "Wood", 18);
     forestScene.addResource("sticks", 6);
       while(true) {
@@ -205,6 +211,8 @@ class Character {
   private ArrayList<Resource> inventory = new ArrayList<Resource>();
 
   public static int validateIntInput(Scanner scan){
+  System.out.print("\u001b[s");
+  System.out.print("\n\033[34m>\033[0m ");
     int choice = 0;
     while (true){
       if(scan.hasNextInt()) {
@@ -212,7 +220,9 @@ class Character {
         break;
       }
       else{
-        System.out.println("Invalid input. please enter an integer.");
+        System.out.print("\u001b[u");
+        System.out.print("\u001b[0J");
+        System.out.print("\n\033[34m>\033[0m ");
         scan.nextLine();
         continue;
       }
@@ -264,14 +274,14 @@ class Character {
   }
   public void addToInv(Resource r){
   boolean addToExisting = false;
-  
+
     for (int i = 0; i < inventory.size(); i++)
       {
         if (inventory.get(i).getName().equals(r.getName()))
         {
           inventory.get(i).addTo(r.getQuantity());
           addToExisting = true;
-          
+
         }
       }
     if (!addToExisting)

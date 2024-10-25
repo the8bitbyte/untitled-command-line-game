@@ -1,13 +1,9 @@
-class event {
-  public event() {
+class Event{
 
+  public Event(){
+    
   }
 
-  public static void rainevent() {
 
-  }
-
-  public static void tresevent() {
-
-  }
+  public static float event;
 }

@@ -1,60 +1,58 @@
 import java.util.ArrayList;
 import java.util.Scanner;
-public class Scene{
+
+public class Scene {
   private String description;
   private String title;
-  private ArrayList<Resource> resources =  new ArrayList<Resource>();
+  private ArrayList<Resource> resources = new ArrayList<Resource>();
 
-  public Scene(String d, String t, String r, int q){
+  public Scene(String d, String t, String r, int q) {
     description = d;
     title = t;
     Resource res = new Resource(r, q);
     resources.add(res);
   }
 
-  public String getTitle(){
+  public String getTitle() {
     return title;
   }
 
-  public String getDescription(){
+  public String getDescription() {
     return description;
   }
 
-  public String getResources(){
+  public String getResources() {
     String output = "";
-    for (int i=0; i<resources.size(); i++)
-      {
-        output+= "- " + (i+1) + " - " + resources.get(i).getName() + ": " + resources.get(i).getQuantity() + "\n";
-      }
+    for (int i = 0; i < resources.size(); i++) {
+      output += "- " + (i + 1) + " - " + resources.get(i).getName() + ": " + resources.get(i).getQuantity() + "\n";
+    }
     return output;
 
-  
   }
-  public void addResource(String r, int q)
-  {
+
+  public void addResource(String r, int q) {
     Resource res = new Resource(r, q);
     resources.add(res);
   }
-  public void addResource(String r, int q, float t)
-    {
-      Resource res = new Resource(r, q, t);
-      resources.add(res);
-    }
-  public Resource harvestResource(int index)
-  {
+
+  public void addResource(String r, int q, float t) {
+    Resource res = new Resource(r, q, t);
+    resources.add(res);
+  }
+
+  public Resource harvestResource(int index) {
     index -= 1;
     resources.get(index).harvest();
-    return new Resource(resources.get(index).getName(),1);
+    return new Resource(resources.get(index).getName(), 1);
   }
-  public void sceneEvents(Scanner scan, Character player)
-  {
+
+  public void sceneEvents(Scanner scan, Character player) {
     Main.printSymbol(1);
     System.out.println(getDescription());
-    while (true){
-    presentOptions();
-    int choice = player.validateIntInput(scan);
-    switch(choice)
-      {
+    while (true) {
+      presentOptions();
+      int choice = player.validateIntInput(scan);
+      switch (choice) {
         case 1:
           Main.printSymbol(1);
           System.out.println(player.getInventory());
@@ -67,44 +65,47 @@ public class Scene{
           Main.printSymbol(2);
           System.out.println("What resource would you like to harvest?");
           int resChoice = player.validateIntInput(scan);
-          System.out.print("\n\033[34m>\033[0m ");
-          if (resources.get(resChoice-1).getQuantity()<1)
-          {
+          if (resources.get(resChoice - 1).getQuantity() < 1) {
             Main.printSymbol(3);
             System.out.println("that resource has already been used up");
-          }
-          else
-          {
-            Main.showProgressBar(resources.get(resChoice-1).getTime());
+          } else {
+            // Harvest available resource
+            Main.showProgressBar(resources.get(resChoice - 1).getminetime());
             player.addToInv(harvestResource((resChoice)));
             Main.printSymbol(1);
             System.out.println(player.getInventory());
             Main.printSymbol(2);
-            while (resources.get(resChoice-1).getQuantity() > 0)
-            {
-              System.out.println("there is " + resources.get(resChoice-1).getQuantity() + " " + resources.get(resChoice-1).getName() + " left, mine another? (y/n)");
-              String mineAgain = scan.nextLine();
-              if (mineAgain.equalsIgnoreCase("y"))
-              {
-                Main.showProgressBar(resources.get(resChoice-1).getTime());
+            scan.nextLine();
+            while (resources.get(resChoice - 1).getQuantity() > 0) {
+              System.out.println("there is " + resources.get(resChoice - 1).getQuantity() + " "
+                  + resources.get(resChoice - 1).getName() + " left, mine another? (y/n)");
+              String mineAgainAnswer = scan.nextLine().toLowerCase();
+              if (mineAgainAnswer.equals("y")) {
+                Main.showProgressBar(resources.get(resChoice - 1).getminetime());
                 player.addToInv(harvestResource((resChoice)));
               }
-              else
-              {
-                System.out.println(mineAgain + "test");
+              else if(mineAgainAnswer.equals("n")){
+                break;
+              }
+              else{
+                System.out.println("Please enter either y or n (y/n)");
               }
             }
+
           }
+        continue;
+        default:
           continue;
       }
       break;
     }
   }
-  public static void presentOptions(){
+
+  public static void presentOptions() {
     System.out.println("\n");
     Main.printSymbol(2);
     System.out.println("What would you like to do?");
     System.out.println("- 1 - Check Inventory\n- 2 - Move Elsewhere\n- 3 - Mine a resource\n- 4 - Check for items");
-    System.out.print("\n\033[34m>\033[0m ");
   }
-  }
+}
+
