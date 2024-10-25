@@ -40,7 +40,7 @@ public class Main {
 
       }
       System.out.println("\033[H\033[2J");
-      System.out.flush();
+      System.out.flush(); 
       return choice;
     }
 
@@ -116,19 +116,21 @@ public class Main {
   }
 
   public static void showProgressBar(float seconds) {
-    int totalDuration = (int) (seconds * 100);
+    int totalDuration = 100;  // total steps for 100%
+    long sleepInterval = (long) (seconds * 1000 / totalDuration);  // ms per step
+
     for (int i = 0; i <= totalDuration; i++) {
         printProgressBar(i, totalDuration);
         try {
-            Thread.sleep((long) (seconds * 10));
+            Thread.sleep(sleepInterval);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
     System.out.println("\nCompleted!\n\n");
-  }
+}
 
-  private static void printProgressBar(int current, int total) {
+private static void printProgressBar(int current, int total) {
     int progressWidth = 20;
     int progress = (int) ((double) current / total * progressWidth);
     StringBuilder bar = new StringBuilder();
@@ -144,7 +146,8 @@ public class Main {
     bar.append(" | ").append((int) ((double) current / total * 100)).append("%");
     System.out.print("\033[H\033[2J");
     System.out.print(bar.toString());
-  }
+}
+
 
 
   public static void createWeapon(int choice, Character p) {
