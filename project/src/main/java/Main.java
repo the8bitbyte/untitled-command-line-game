@@ -22,6 +22,29 @@ public class Main {
       System.out.print(symbol);
   }
 
+  public static void exit(Scanner scan)
+  {
+    
+    while (true) {
+      System.out.println("\033[H\033[2J");
+      System.out.flush();
+      printSymbol(2);
+      System.out.println("are you sure you want to quit the game? (y/n)");
+      String exitAnswer = scan.nextLine().toLowerCase();
+       if (exitAnswer.equals("y")) {
+          System.out.println("\033[H\033[2J");
+          System.out.flush();
+         System.exit(0);
+      }
+      else if(exitAnswer.equals("n")){
+        break;
+      }
+      else{
+        continue;
+      }
+    }
+  }
+
   public static int validateIntInput(Scanner scan){
 
       int choice = 0;
@@ -59,11 +82,11 @@ public class Main {
     Character player = createCharacter(scan);
     Clear();
     printSymbol(2);
-      System.out.println("choose your starter\n- 1 - Sword\n- 2 - Axe\n- 3 - Crossbow");
+      System.out.println("choose your starter\n- 1 - Sword\n- 2 - Axe\n- 3 - Crossbow\n- 4 - quit game");
     int weaponchoice = validateIntInput(scan);
     while (true)
       {
-        if (weaponchoice < 4 && weaponchoice > 0)
+        if (weaponchoice < 5 && weaponchoice > 0)
         {
           break;
         }
@@ -71,6 +94,11 @@ public class Main {
         System.out.println("choose your starter\n- 1 - Sword\n- 2 - Axe\n- 3 - Crossbow");
         weaponchoice = validateIntInput(scan);
       }
+
+    if (weaponchoice == 4)
+    {
+      exit(scan);
+    }
 
     createWeapon(weaponchoice, player);
 
@@ -111,7 +139,7 @@ public class Main {
             forestScene.sceneEvents(input, player);
             break;
           case 3:
-            System.out.println("more text");
+            System.out.println("more text"); // ?
             break;
           default:
             continue;
@@ -148,7 +176,8 @@ private static void printProgressBar(int current, int total) {
         }
     }
     bar.append(" | ").append((int) ((double) current / total * 100)).append("%");
-    System.out.print("\033[H\033[2J");
+    System.out.println("\033[H\033[2J");
+    System.out.flush();
     System.out.print(bar.toString());
 }
 
@@ -197,12 +226,6 @@ private static void printProgressBar(int current, int total) {
     System.out.println("What is your character's name? ");
     String inputName = scan.nextLine();
     return new Character(inputName);
-  }
-
-  public static void presentOptions() {
-    System.out.println("What would you like to do?");
-    System.out.println("1. Check Inventory\n2. Move Elsewhere\n3. Mine a resource\n4. Check for items");
-    System.out.print("Please enter a number input:");
   }
 
 }

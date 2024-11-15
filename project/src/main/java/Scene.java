@@ -94,6 +94,8 @@ public class Scene {
 
           }
         continue;
+        case 5:
+          Main.exit(scan);
         default:
           continue;
       }
@@ -105,7 +107,7 @@ public class Scene {
     System.out.println("\n");
     Main.printSymbol(2);
     System.out.println("What would you like to do?");
-    System.out.println("- 1 - Check Inventory\n- 2 - Move Elsewhere\n- 3 - Mine a resource\n- 4 - Check for items");
+    System.out.println("- 1 - Check Inventory\n- 2 - Move Elsewhere\n- 3 - Mine a resource\n- 4 - Check for items\n- 5 - quit game");
   }
 }
 
