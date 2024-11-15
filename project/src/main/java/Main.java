@@ -1,4 +1,7 @@
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 import java.awt.DefaultFocusTraversalPolicy;
 import java.awt.Toolkit;
 import java.awt.Dimension;
@@ -210,7 +213,8 @@ private static void printProgressBar(int current, int total) {
           System.out.println("You found a Bow\n\n");
           //System.out.print("ah yes you have found special bow this is a very myical bow used back with old paps tho paps was mean he is pap it was passed down with gernation gernation old paps found drangon with that one it has be cursed by the spirt of the drango it has -50 damage -100000 defense to host oh yeah i forgot to metion this bow is diease in way once in conact it will croase its roots in to you affect your biological proceeswss it 5g fiber opical tracking where it will always know where you are and will appy siad procesewws + 10 health point to all surronding eminies and eminies ONLY not FRIENDLY at least not local mmm old paps loved old dinner but the fast food owner cursed his food which makes it poisonisi to all ");
           break;
-
+        case 4:
+          
         default:
           System.out.print("\033[H\033[2J");
           System.out.print("Enter a valid choice");
@@ -324,10 +328,10 @@ class Character {
       for (int i = 0; i <= inventory.size(); i++)
       {
         output += inventory.get(i).getName() + ":" + inventory.get(i).getQuantity();
-      }
+       }
       return output;
+     }
     }
-  }
 
   // //TODO: Change argument to more generic type later on!
   // public void addSword(Weapon s) {
