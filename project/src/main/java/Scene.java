@@ -68,7 +68,7 @@ public class Scene {
           if (resources.get(resChoice - 1).getQuantity() < 1) {
             Main.printSymbol(3);
             System.out.println("that resource has already been used up");
-          } else {
+          } else  {
             // Harvest available resource
             Main.showProgressBar(resources.get(resChoice - 1).getminetime());
             player.addToInv(harvestResource((resChoice)));

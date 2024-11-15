@@ -14,6 +14,15 @@ class Weapon {
     return "This is " + this.name + ". It does " + this.damage + "damage and has " + this.durrability + "durribility";
   }
 
+  public String saveData(){
+    String output = "";
+    output += this.name + "|";
+    output += this.damage + "|";
+    output += this.durrability;
+    return output;    
+  }
+
+
   static class Sword {
     private String name;
     private int durrability;
@@ -64,6 +73,14 @@ class MiningTool {
     this.name = n;
     this.durrability = dur;
     this.mineTime = mT;
+  }
+  public String saveData(){
+    String output = "";
+    output += this.name + "|";
+    output += this.damage + "|";
+    output += this.durrability + "|";
+    output += this.mineTime;
+    return output;    
   }
 
 

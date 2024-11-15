@@ -4,6 +4,8 @@ import java.awt.Toolkit;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
+
+
 public class Main {
 
 
@@ -52,6 +54,8 @@ public class Main {
 
   public static void main(String[] args) {
     Scanner scan = new Scanner(System.in);
+    CreateFile createSave = new CreateFile();
+    createSave.create();
     Character player = createCharacter(scan);
     Clear();
     printSymbol(2);
@@ -291,6 +295,15 @@ class Character {
     {
       inventory.add(r);
     }
+
+    public String saveInventory(){
+      String output = "";
+      for (int i = 0; i <= inventory.size(); i++)
+      {
+        output += inventory.get(i).getName() + ":" + inventory.get(i).getQuantity();
+      }
+      return output;
+    }
   }
 
   // //TODO: Change argument to more generic type later on!
@@ -300,6 +313,26 @@ class Character {
 
   public String toString1() {
     return ("Name: " + this.name + "\nHealth: " + this.Health + "/" + this.MaxHealth + "\nMoney: " + this.Money);
+  }
+
+  public String formatSaveString()
+  {
+    /*
+    SAVE DATA ORDER:
+    1. Player Name
+    2. Max Health
+    3. Current Health
+    4. Money
+    5. Weapon Data
+    6. Mining Tool Data
+    */
+    String output = "";
+    output += this.name + "|";
+    output += this.MaxHealth + "|";
+    output += this.Health + "|";
+    output += this.Money + "|";
+    output += this.weapon.saveData() + "|";
+    output += this.mine.saveData() + "|";
   }
 
 }
