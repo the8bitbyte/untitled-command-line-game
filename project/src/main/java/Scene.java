@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.fusesource.jansi.AnsiConsole;
+
 public class Scene {
   private String description;
   private String title;
@@ -69,6 +71,7 @@ public class Scene {
             Main.printSymbol(3);
             System.out.println("that resource has already been used up");
           } else  {
+            AnsiConsole.systemInstall();
             // Harvest available resource
             Main.showProgressBar(resources.get(resChoice - 1).getminetime());
             player.addToInv(harvestResource((resChoice)));

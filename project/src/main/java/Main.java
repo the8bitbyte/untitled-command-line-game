@@ -1,4 +1,13 @@
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
+import com.github.kwhat.jnativehook.GlobalScreen;
+import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
+
+import org.fusesource.jansi.AnsiConsole;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
@@ -10,7 +19,6 @@ import java.util.ArrayList;
 
 
 public class Main {
-
 
   public static void printSymbol(int value) {
       String symbol;
@@ -24,6 +32,25 @@ public class Main {
       }
       System.out.print(symbol);
   }
+
+  public static void yn()
+  {
+    Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+    logger.setLevel(Level.OFF);
+    logger.setUseParentHandlers(false);
+      
+    Quit quitListener = new Quit();
+
+    try
+    {
+      GlobalScreen.registerNativeHook();
+    }
+    catch(Exception e)
+    {
+      System.err.println("error registering native hook: " + e);
+    }
+    GlobalScreen.addNativeKeyListener(quitListener);
+}
 
   public static void exit(Scanner scan)
   {
@@ -100,10 +127,57 @@ public class Main {
 
     if (weaponchoice == 4)
     {
+      Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+      logger.setLevel(Level.OFF);
+      logger.setUseParentHandlers(false);
+        
+      Quit quitListener = new Quit();
+
+      try
+      {
+        GlobalScreen.registerNativeHook();
+      }
+      catch(Exception e)
+      {
+        System.err.println("error registering native hook: " + e);
+      }
+      GlobalScreen.addNativeKeyListener(quitListener);
+      System.out.println("do you wish to quit (y/n)");
+
+      while (true) {
+        if (quitListener.getQuitFlag() == 1)
+        {
+          GlobalScreen.removeNativeKeyListener(quitListener);
+          createWeapon(weaponchoice, player);
+          Scanner input = new Scanner(System.in);
+          event1(input, player);
+        }
+        else if (quitListener.getQuitFlag() == 0)
+        {
+          Main.Clear();
+          try {
+            GlobalScreen.unregisterNativeHook();
+
+          }
+          catch (Exception ex) {
+
+          }
+
+          System.exit(0);
+        }
+        
+      
+    }
+  }
+    else {
+      createWeapon(weaponchoice, player);
       exit(scan);
     }
+      
 
-    createWeapon(weaponchoice, player);
+    
+
+    // createWeapon(weaponchoice, player);
 
     // Scene testScene = new Scene("F ound a quarry");
     // System.out.println(testScene.getDescription());
@@ -151,6 +225,7 @@ public class Main {
   }
 
   public static void showProgressBar(float seconds) {
+    AnsiConsole.systemInstall();
     int totalDuration = 100;  // total steps for 100%
     long sleepInterval = (long) (seconds * 1000 / totalDuration);  // ms per step
 
@@ -182,6 +257,7 @@ private static void printProgressBar(int current, int total) {
     System.out.println("\033[H\033[2J");
     System.out.flush();
     System.out.print(bar.toString());
+    AnsiConsole.systemUninstall();
 }
 
 
