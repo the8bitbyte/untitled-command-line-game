@@ -17,7 +17,6 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 
 
-
 public class Main {
 
   public static void printSymbol(int value) {
@@ -33,24 +32,6 @@ public class Main {
       System.out.print(symbol);
   }
 
-  public static void yn()
-  {
-    Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
-    logger.setLevel(Level.OFF);
-    logger.setUseParentHandlers(false);
-      
-    Quit quitListener = new Quit();
-
-    try
-    {
-      GlobalScreen.registerNativeHook();
-    }
-    catch(Exception e)
-    {
-      System.err.println("error registering native hook: " + e);
-    }
-    GlobalScreen.addNativeKeyListener(quitListener);
-}
 
   public static void exit(Scanner scan)
   {
@@ -126,53 +107,13 @@ public class Main {
       }
 
     if (weaponchoice == 4)
-    {
-      Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
-      logger.setLevel(Level.OFF);
-      logger.setUseParentHandlers(false);
-        
-      Quit quitListener = new Quit();
-
-      try
-      {
-        GlobalScreen.registerNativeHook();
-      }
-      catch(Exception e)
-      {
-        System.err.println("error registering native hook: " + e);
-      }
-      GlobalScreen.addNativeKeyListener(quitListener);
-      System.out.println("do you wish to quit (y/n)");
-
-      while (true) {
-        if (quitListener.getQuitFlag() == 1)
-        {
-          GlobalScreen.removeNativeKeyListener(quitListener);
-          createWeapon(weaponchoice, player);
-          Scanner input = new Scanner(System.in);
-          event1(input, player);
-        }
-        else if (quitListener.getQuitFlag() == 0)
-        {
-          Main.Clear();
-          try {
-            GlobalScreen.unregisterNativeHook();
-
-          }
-          catch (Exception ex) {
-
-          }
-
-          System.exit(0);
-        }
-        
       
-    }
-  }
-    else {
-      createWeapon(weaponchoice, player);
-      exit(scan);
-    }
+      {
+        exit(scan);
+      }
+    
+    createWeapon(weaponchoice, player);
+  
       
 
     
@@ -191,6 +132,7 @@ public class Main {
 
 
     event1(input, player);
+    
 
 
   }
@@ -289,11 +231,15 @@ private static void printProgressBar(int current, int total) {
           System.out.println("You found a Bow\n\n");
           //System.out.print("ah yes you have found special bow this is a very myical bow used back with old paps tho paps was mean he is pap it was passed down with gernation gernation old paps found drangon with that one it has be cursed by the spirt of the drango it has -50 damage -100000 defense to host oh yeah i forgot to metion this bow is diease in way once in conact it will croase its roots in to you affect your biological proceeswss it 5g fiber opical tracking where it will always know where you are and will appy siad procesewws + 10 health point to all surronding eminies and eminies ONLY not FRIENDLY at least not local mmm old paps loved old dinner but the fast food owner cursed his food which makes it poisonisi to all ");
           break;
-        case 4:
-          
+
+
         default:
-          System.out.print("\033[H\033[2J");
-          System.out.print("Enter a valid choice");
+          Clear();
+          printSymbol(2);
+          System.out.println("choose your starter\n- 1 - Sword\n- 2 - Axe\n- 3 - Crossbow");
+          Scanner input = new Scanner(System.in);
+          int weaponchoice = validateIntInput(input);
+          createWeapon(weaponchoice, p);
 
       }
       break;
